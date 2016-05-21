@@ -37,9 +37,9 @@ import java.util.Map;
 import java.util.Random;
 
 @Service
-public class DataLoader {
+public class DLoader {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(DataLoader.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(DLoader.class);
 
 	@Autowired
 	private AppConfigurations appConfigurations;
