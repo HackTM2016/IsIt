@@ -11,7 +11,7 @@ angular.module('isItApp')
       console.log('asking' + $scope.question);
       if ($scope.question.length > 0) {
 
-        $http.get("http://localhost:8080/api/question", {params: {question: $scope.question}}).then(function (response) {
+        $http.get("/api/question", {params: {question: $scope.question}}).then(function (response) {
           $scope.response = response.data;
           console.log($scope.response);
         });
