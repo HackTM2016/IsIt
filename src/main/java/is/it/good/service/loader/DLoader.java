@@ -2,13 +2,18 @@ package is.it.good.service.loader;
 
 import com.datumbox.framework.applications.nlp.TextClassifier;
 import com.datumbox.framework.common.Configuration;
+import com.datumbox.framework.common.dataobjects.AssociativeArray;
+import com.datumbox.framework.common.dataobjects.Dataframe;
 import com.datumbox.framework.common.dataobjects.Record;
+import com.datumbox.framework.common.interfaces.Extractable;
 import com.datumbox.framework.common.persistentstorage.inmemory.InMemoryConfiguration;
 import com.datumbox.framework.common.utilities.RandomGenerator;
+import com.datumbox.framework.common.utilities.StringCleaner;
 import com.datumbox.framework.core.machinelearning.classification.BinarizedNaiveBayes;
 import com.datumbox.framework.core.machinelearning.common.abstracts.modelers.AbstractClassifier;
 import com.datumbox.framework.core.machinelearning.common.interfaces.ValidationMetrics;
 import com.datumbox.framework.core.machinelearning.featureselection.scorebased.TFIDF;
+import com.datumbox.framework.core.utilities.text.extractors.AbstractTextExtractor;
 import com.datumbox.framework.core.utilities.text.extractors.NgramsExtractor;
 import is.it.good.model.Category;
 import is.it.good.model.CategoryAndRatingModel;
@@ -29,7 +34,6 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import java.io.IOException;
 import java.io.StringReader;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -60,9 +64,14 @@ public class DLoader {
 		conf.setDbConfig(new InMemoryConfiguration()); //use In-Memory storage (default)
 		conf.getConcurrencyConfig().setParallelized(false); //turn on/off the parallelization
 
-		Map<Object, URI> datasets = new HashMap<>(); //The examples of each category are stored on the same file, one example per row.
-		datasets.put("positive", new ClassPathResource("data/positive-words.txt").getURI());
-		datasets.put("negative", new ClassPathResource("data/negative-words.txt").getURI());
+		List<String> positiveLines = org.apache.commons.io.IOUtils
+				.readLines(new ClassPathResource("data/positive-words.txt").getInputStream());
+		List<String> negativeLines = org.apache.commons.io.IOUtils
+				.readLines(new ClassPathResource("data/negative-words.txt").getInputStream());
+
+		Map<String, List<String>> data = new HashMap<>();
+		data.put("positive", positiveLines);
+		data.put("negative", negativeLines);
 
 		TextClassifier.TrainingParameters trainingParameters = new TextClassifier.TrainingParameters();
 
@@ -84,13 +93,16 @@ public class DLoader {
 		//Fit the classifier
 		//------------------
 		classifier = new TextClassifier("Analyzer", conf);
-		classifier.fit(datasets, trainingParameters);
+
+		Dataframe df = convert(data, AbstractTextExtractor.newInstance(trainingParameters.getTextExtractorClass(),
+				trainingParameters.getTextExtractorParameters()),conf);
+		classifier.fit(df, trainingParameters);
 
 		//Use the classifier
 		//------------------
 
 		//Get validation metrics on the training set
-		ValidationMetrics vm = classifier.validate(datasets);
+		ValidationMetrics vm = classifier.validate(df);
 		classifier.setValidationMetrics(vm); //store them in the model for future reference
 
 		AbstractClassifier.AbstractValidationMetrics vv = (AbstractClassifier.AbstractValidationMetrics) vm;
@@ -176,6 +188,26 @@ public class DLoader {
 			throw new RuntimeException(e);
 		}
 		return StringUtils.join(result, " ");
+	}
+
+	public Dataframe convert(Map<String, List<String>> data, Extractable textExtractor,
+			com.datumbox.framework.common.Configuration conf) {
+		Dataframe dataSet = new Dataframe(conf);
+
+		for (Map.Entry<String, List<String>> entry : data.entrySet()) {
+
+			int baseCounter = dataSet.size();
+			int index = 0;
+			for (String line : entry.getValue()) {
+
+				Integer rId = baseCounter + index;
+				AssociativeArray xData = new AssociativeArray(textExtractor.extract(StringCleaner.clear(line)));
+				Record r = new Record(xData, entry.getKey());
+				dataSet.set(rId, r);
+				index++;
+			}
+		}
+		return dataSet;
 	}
 
 }
