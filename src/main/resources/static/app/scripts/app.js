@@ -2,6 +2,4 @@
 
 angular
   .module('isItApp', [
-    'ngAnimate',
-    'ngTouch'
   ]);

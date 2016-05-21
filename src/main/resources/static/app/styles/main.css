@@ -124,12 +124,12 @@
 }
 
 .input-custom{
-  background-image: -webkit-gradient(linear, left top, left bottom, from(#009688), to(#009688)), -webkit-gradient(linear, left top, left bottom, from(#D2D2D2), to(#D2D2D2));
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#009688), to(#009688)), -webkit-gradient(linear, left top, left bottom, from(#D2D2D2), to(#D2D2D2)) !important;
   background-image: -webkit-linear-gradient(#FFFF00, #FFFF00), -webkit-linear-gradient(#D2D2D2, #D2D2D2) !important;
   background-image: -o-linear-gradient(#FFFF00, #FFFF00), -o-linear-gradient(#D2D2D2, #D2D2D2)  !important;
   background-image: linear-gradient(#FFFF00, #FFFF00), linear-gradient(#D2D2D2, #D2D2D2)  !important;
-  text-align: center;
-  color: #ebeb00;
+  text-align: center !important;
+  color: #ebeb00 !important;
 }
 
 .smiley-happy{
