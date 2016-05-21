@@ -6,7 +6,6 @@ import com.datumbox.framework.common.dataobjects.Record;
 import com.datumbox.framework.common.persistentstorage.inmemory.InMemoryConfiguration;
 import com.datumbox.framework.common.utilities.RandomGenerator;
 import com.datumbox.framework.core.machinelearning.classification.BinarizedNaiveBayes;
-import com.datumbox.framework.core.machinelearning.classification.SupportVectorMachine;
 import com.datumbox.framework.core.machinelearning.common.abstracts.modelers.AbstractClassifier;
 import com.datumbox.framework.core.machinelearning.common.interfaces.ValidationMetrics;
 import com.datumbox.framework.core.machinelearning.featureselection.scorebased.TFIDF;
