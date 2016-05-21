@@ -1,0 +1,38 @@
+spring:
+  datasource:
+    platform: hsqldb
+  jpa:
+    generate-ddl: true
+
+management:
+  context-path: /manage
+
+
+is.it.good:
+  entries:
+    POSITIVE:
+      -
+        from: -1
+        to: 0.7
+        responses:
+          - 'Its okay I guess'
+          - 'Not Bad, but I think you might have to improve on that'
+      -
+        from: 0.7
+        to: 1
+        responses:
+          - 'Thats a great Idea!'
+          - 'Sure, I mean, why shouldn''t you do that'
+          - 'Great! Absolute no-brainer!'
+    NEGATIVE:
+      -
+        from: -1
+        to: 0.7
+        responses:
+          - 'Not so great, invest a little more work into that'
+      -
+        from: 0.7
+        to: 1
+        responses:
+          - 'Don''t even thinkt about it'
+          - 'Drop that idea, go home, reithink your life!'

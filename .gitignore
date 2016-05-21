@@ -1,3 +1,10 @@
+log/
+logs/
+.idea
+.eml
+.classpath
+.project
+*.classes/
 target
 *.iml
 *.ipr
