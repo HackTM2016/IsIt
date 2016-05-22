@@ -7,8 +7,10 @@
   <meta name="viewport" content="width=device-width">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
         integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.3.0/css/roboto.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.3.0/css/material-fullpalette.min.css">
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.3.0/css/roboto.min.css">
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.3.0/css/material-fullpalette.min.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"/>
   <!-- endbower -->
   <!-- endbuild -->
@@ -42,11 +44,11 @@
 
             <div class="well col-sm-offset-3 col-sm-6" style="background-color: #212121">
 
-              <form class="well-body" ng-show="response == null" >
+              <form class="well-body" ng-show="response == null">
 
                 <h1 class="text-center"><span class="text-primary-lime">Is it a good idea to</span></h1>
 
-                <div class="form-group label-floating is-focused" autofocus>
+                <div class="form-group label-floating is-focused" autofocus="true" style="margin-top: 25px;">
                   <input id="question" type="text" class="form-control input-custom" ng-model="question"
                          autocomplete="off"
                          ng-keyup="$event.keyCode == 13 && ask()"/>
@@ -65,18 +67,20 @@
 
 
                 <h3 class="text-center">
-                  <i   ng-class="response.category == 'POSITIVE' ? 'smiley-happy fa fa-smile-o' : 'smiley-sad fa fa-frown-o' " class=""></i>
-                  <span class="response"  ng-class="response.category == 'POSITIVE' ? 'smiley-happy' : 'smiley-sad'">
+                  <i
+                    ng-class="response.category == 'POSITIVE' ? 'smiley-happy fa fa-smile-o' : 'smiley-sad fa fa-frown-o' "
+                    class=""></i>
+                  <span class="response" ng-class="response.category == 'POSITIVE' ? 'smiley-happy' : 'smiley-sad'">
                     {{response.message}}
                   </span>
                 </h3>
-                  <br><br>
+                <br><br>
                 <h1 class="text-center">
                   <a class="text-primary-lime pointer" ng-click="askAgain()">
                     Ask again ?
                   </a>
                 </h1>
-                </form>
+              </form>
             </div>
           </div>
         </div>
@@ -87,12 +91,12 @@
 
 <script>
   $.material.init()
-  window.setTimeout(function(){
-   $('#question').focus();
-  });
-  window.setTimeout(function(){
+  window.setTimeout(function () {
     $('#question').focus();
-  },500);
+  });
+  window.setTimeout(function () {
+    $('#question').focus();
+  }, 500);
 </script>
 
 <!-- endbuild -->
